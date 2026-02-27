@@ -5,7 +5,6 @@ function loggingMiddleware(req, res, next) {
     res.on('finish', () => {
         const duration = Date.now() - start;
 
-        // фильтруем /logs — их не добавляем
         if (!req.originalUrl.startsWith('/logs')) {
             const logEntry = `[${req.requestId}] ${req.method} ${req.originalUrl} -> ${res.statusCode}`;
             console.log(logEntry);

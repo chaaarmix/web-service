@@ -11,12 +11,11 @@ const PORT = 3000;
 
 app.use(express.json());
 
-// 🔹 Middleware конвейер
+// Middleware конвейер
 app.use(requestIdMiddleware);
 app.use(timingMiddleware);
 app.use(loggingMiddleware);
 
-// 🔹 Главная страница с UI
 app.get('/', (req, res) => {
     res.send(`
     <html>
@@ -102,10 +101,8 @@ app.get('/', (req, res) => {
 
     const data = await res.json();
 
-    // отображаем в блоке single-item **любое тело ответа** — и успешный POST, и ошибку
     document.getElementById('single-item').textContent = JSON.stringify(data, null, 2);
 
-    // если POST успешный — обновляем таблицу
     if (res.status >= 200 && res.status < 300) {
       loadItems();
     }
@@ -139,15 +136,12 @@ app.get('/', (req, res) => {
   `);
 });
 
-// 🔹 API маршруты
 app.use('/api/items', bookRoutes);
 
-// 🔹 Эндпоинт логов
 app.get('/logs', (req, res) => {
     res.json(getLogs());
 });
 
-// 🔹 error middleware — ВСЕГДА ПОСЛЕДНИЙ
 app.use(errorMiddleware);
 
 app.listen(PORT, () => {
